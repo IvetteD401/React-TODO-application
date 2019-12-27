@@ -1,24 +1,83 @@
 import React from "react";
 
 //include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 export function Home() {
+	var myNodelist = document.getElementsByTagName("LI");
+	var i;
+	for (i = 0; i < myNodelist.length; i++) {
+		var span = document.createElement("SPAN");
+		var txt = document.createTextNode("\u00D7");
+		span.className = "close";
+		span.appendChild(txt);
+		myNodelist[i].appendChild(span);
+	}
+
+	// Click on a close button to hide the current list item
+	var close = document.getElementsByClassName("close");
+	var i;
+	for (i = 0; i < close.length; i++) {
+		close[i].onclick = function() {
+			var div = this.parentElement;
+			div.style.display = "none";
+		};
+	}
+
+	// Add a "checked" symbol when clicking on a list item
+	// var list = document.querySelector("ul");
+	// list.addEventListener(
+	// 	"click",
+	// 	function(ev) {
+	// 		if (ev.target.tagName === "LI") {
+	// 			ev.target.classList.toggle("checked");
+	// 		}
+	// 	},
+	// 	false
+	// );
+
+	// Create a new list item when clicking on the "Add" button
+	function newElement() {
+		var li = document.createElement("li");
+		var inputValue = document.getElementById("myInput").value;
+		var t = document.createTextNode(inputValue);
+		li.appendChild(t);
+		if (inputValue === "") {
+			alert("You must write something!");
+		} else {
+			document.getElementById("myUL").appendChild(li);
+		}
+		document.getElementById("myInput").value = "";
+
+		var span = document.createElement("SPAN");
+		var txt = document.createTextNode("\u00D7");
+		span.className = "close";
+		span.appendChild(txt);
+		li.appendChild(span);
+
+		for (i = 0; i < close.length; i++) {
+			close[i].onclick = function() {
+				var div = this.parentElement;
+				div.style.display = "none";
+			};
+		}
+	}
 	return (
 		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			<div>
+				<div id="myDIV" className="header">
+					<h2 style={{ margin: "5px" }}>My To Do List</h2>
+					<input type="text" id="myInput" placeholder="Title..." />
+					<span
+						onclick="newElement()"
+						type="button"
+						id="myBtn"
+						className="addBtn btn-outline-dark">
+						Add
+					</span>
+				</div>
+				<ul id="myUL" />
+			</div>
 		</div>
 	);
 }
